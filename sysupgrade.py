@@ -95,8 +95,8 @@ class Updater(object):
         return self.session.get(url)
 
 
-@app.route("/<path:model>")
-@app.route("/<path:model>/api/v1/revision/SNAPSHOT/ipq807x/generic")
+@app.route("/<string:model>")
+@app.route("/<string:model>/api/v1/revision/SNAPSHOT/ipq807x/generic")
 def get_model(model: str):
     model = model.replace("/", "")
     u = Updater()
@@ -113,7 +113,7 @@ def get_model(model: str):
     return {"revision": f"r0-{ssha}"}
 
 
-@app.route("/<path:model>/store/undefined/<path:fname>.bin")
+@app.route("/<string:model>/store/undefined/<path:fname>.bin")
 def store(model: str, fname: str):
     model = model.replace("/", "")
     u = Updater()
@@ -138,7 +138,7 @@ def store(model: str, fname: str):
     return flask.send_from_directory(basedir, bname)
 
 
-@app.route("/<path:model>/api/v1/build", methods=["GET", "POST"])
+@app.route("/<string:model>/api/v1/build", methods=["GET", "POST"])
 def build(model: str):
     model = model.replace("/", "")
     u = Updater()
