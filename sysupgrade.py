@@ -11,7 +11,7 @@ app = flask.Flask(__name__, template_folder="template")
 CORS(app)
 
 config = json.load(open('config.json'))
-cache = {"link": None, "jdata": {"update": None, "sha": None, "sums":None}}
+cache = {"link": None, "jdata": {"update": None, "sha": None, "sums": None}}
 
 
 class Updater(object):
@@ -33,7 +33,7 @@ class Updater(object):
             print("New data!", linksha, cache['link'])
             if cache['link']:
                 self.clear_old_cache()
-            
+
             cache['link'] = linksha
 
             r = self.session.get(latestrel, params={"per_page": "1"})
@@ -61,7 +61,7 @@ class Updater(object):
         models = {}
         for asset in self.jdata['assets']:
             name = asset["name"]
-            if "sysupgrade" in name or (name == "sha256sums" and nosha==False):
+            if "sysupgrade" in name or (name == "sha256sums" and nosha == False):
                 if name != "sha256sums":
                     model = name.split("-")[3]
                 else:
@@ -69,7 +69,7 @@ class Updater(object):
                 if not model in models:
                     models[model] = asset
         return models
-    
+
     def get_sums(self) -> dict:
         models = self.get_models()
         if cache["jdata"]["sums"]:
@@ -82,14 +82,16 @@ class Updater(object):
             if not line:
                 continue
             sha, fname = line.split()[0:2]
-            fname = fname.replace("*","")
+            fname = fname.replace("*", "")
             sumsdict[fname] = sha
         cache["jdata"]["sums"] = sumsdict
         return sumsdict
 
-    def get_file(self, url:str) -> requests.Response:
+    def get_file(self, url: str) -> requests.Response:
         return self.session.get(url)
 
+
+@app.route("/<path:model>")
 @app.route("/<path:model>/api/v1/revision/SNAPSHOT/ipq807x/generic")
 def get_model(model: str):
     model = model.replace("/", "")
@@ -106,8 +108,9 @@ def get_model(model: str):
     ssha = u.get_sha()
     return {"revision": f"r0-{ssha}"}
 
+
 @app.route("/<path:model>/store/undefined/<path:fname>.bin")
-def store(model:str, fname:str):
+def store(model: str, fname: str):
     model = model.replace("/", "")
     u = Updater()
     update = u.get_update()
@@ -128,9 +131,10 @@ def store(model:str, fname:str):
         r = u.get_file(download_url)
         with open(f"{basedir}/{bname}", "wb") as f:
             f.write(r.content)
-    return flask.send_from_directory(basedir,bname)
+    return flask.send_from_directory(basedir, bname)
 
-@app.route("/<path:model>/api/v1/build", methods=["GET","POST"])
+
+@app.route("/<path:model>/api/v1/build", methods=["GET", "POST"])
 def build(model: str):
     model = model.replace("/", "")
     u = Updater()
@@ -192,6 +196,7 @@ def build(model: str):
     }
     return build_data
 
+
 @app.route("/")
 def index():
     u = Updater()
@@ -200,6 +205,7 @@ def index():
     host = flask.request.host
     proto = flask.request.url.startswith('http://') and "http" or "https"
     return flask.render_template("index.html", host=host, models=models, proto=proto)
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
