@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shotokan's ipq807x Sysupgrade server</title>
+</head>
+<body>
+    It's magical!<BR/>
+    To configure this server as your main sysupgrade server follow this procedure:<br/>
+    <ul>
+        <li>
+            Navigate to System->Attended Sysupgrade
+        </li>
+        <li>
+            Select the "Configuration" tab
+        </li>
+        <li>
+            Under "Server -> Address" insert one of the following links (choose your device):
+            <ul>
+                {% for model in models %}
+                <li>{{proto}}://{{host}}/<b style='color:red'>{{model}}</b></li>
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
+    Brought to you with ❤️ by ShotokanZH
+</body>
+</html>
