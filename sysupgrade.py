@@ -20,6 +20,10 @@ class Updater(object):
     session.headers = {"Authorization": f"Bearer {config['key']}"}
     jdata = None
 
+    def __init__(self) -> None:
+        if not os.path.isdir("cache"):
+            os.mkdir("cache")
+
     def clear_old_cache(self):
         basedir = f'cache/{self.jdata["id"]}'
         if os.path.isdir(basedir):
