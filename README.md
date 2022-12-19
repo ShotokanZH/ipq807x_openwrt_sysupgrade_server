@@ -2,6 +2,8 @@
 
 A simple Sysupgrade-like server that will allow rapid access to [robimarko's firmwares](https://github.com/robimarko/openwrt) by proxying requests to github and creating a sysupgrade standard response.
 
+Requires on your router the [LuCI package](https://openwrt.org/docs/guide-user/installation/attended.sysupgrade) `luci-app-attendedsysupgrade`.
+
 #
 ## How to make it work
 
