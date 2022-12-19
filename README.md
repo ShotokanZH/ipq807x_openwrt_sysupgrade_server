@@ -28,10 +28,11 @@ The updated list can be retrieved in real-time here: https://sysupgrade.eleet.de
 
 #
 ### The "I don't trust you Shoto" way
+- install the system requirements: `git` and `py3-pip`
 - `git clone https://github.com/ShotokanZH/ipq807x_openwrt_sysupgrade_server.git`
+- `cd ipq807x_openwrt_sysupgrade_server`
 - `cp config.json.example config.json`
 - add your github token to config.json
 - `python3 -m pip install -r requirements.txt`
 - `python3 -BO sysupgrade.py`
-
-(The server will by default listen on port 5000)
+- check for further instructions of your router, opening in the browser: `http://IP_ADDRESS:5000`
