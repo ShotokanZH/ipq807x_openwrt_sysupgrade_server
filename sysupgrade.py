@@ -25,7 +25,7 @@ class Updater(object):
             os.mkdir("cache")
 
     def clear_old_cache(self):
-        basedir = f'cache/{self.jdata["id"]}'
+        basedir = f'cache/{self.jdata["update"]["id"]}'
         if os.path.isdir(basedir):
             shutil.rmtree(basedir)
 
@@ -110,7 +110,7 @@ def get_model(model: str):
             "type": "about:blank"
         }, 500
     ssha = u.get_sha()
-    return {"revision": f"r0-{ssha}"}
+    return {"revision": f"r1-{ssha}"}
 
 
 @app.route("/<string:model>/store/undefined/<path:fname>.bin")
