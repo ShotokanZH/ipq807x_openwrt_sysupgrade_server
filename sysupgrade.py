@@ -25,9 +25,10 @@ class Updater(object):
             os.mkdir("cache")
 
     def clear_old_cache(self):
-        basedir = f'cache/{self.jdata["update"]["id"]}'
-        if os.path.isdir(basedir):
-            shutil.rmtree(basedir)
+        if self.jdata and "id" in self.jdata:
+            basedir = f'cache/{self.jdata["id"]}'
+            if os.path.isdir(basedir):
+                shutil.rmtree(basedir)
 
     def get_update(self) -> dict:
         latestrel = f"{self.baseurl}/releases"
